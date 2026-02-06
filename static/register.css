@@ -1,0 +1,124 @@
+/* General Page Setup */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #0f172a 0%, #0f172a 30%, #004d4d 100%);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container */
+.container {
+    background: #0f172a ;
+    padding: 25px 30px;               
+    border-radius: 10px;
+    box-shadow: 0 0 10px #00ffff, 0 0 20px cyan;
+    width: 100%;
+    width: 450px;
+    border: 3px solid aqua
+}
+
+/* Heading */
+.container h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #fcf8f8;
+}
+
+/* Success Message */
+.success-message {
+    /* background: #d4edda; */
+    color: #aff8fe;
+    font-size: 20px;
+    padding: 12px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #f9f3f3;
+}
+
+.form-group input {
+    width: 400px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form-group input:focus {
+    border:2px solid #04f4fc;
+   box-shadow: 0 0 10px #05f1f9, 0 0 20px rgb(3, 234, 251);
+}
+
+/* Button */
+.btn {
+    width: 150px;
+    padding: 12px;
+    background: #f9f8f9;
+    border: 3px solid aqua;
+    color: rgb(16, 0, 0);
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 120px;
+   
+}
+
+.btn:hover {
+    background: #04f5d9;
+    color: black;
+    box-shadow: 0 0 10px #00ffff, 0 0 20px cyan;
+  
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+    .container {
+        padding: 20px;
+    }
+}
+#particles-js {
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* stays in the back */
+    pointer-events: none;
+    background: transparent;
+}
+#particles-js canvas {
+    display: block;
+    width: 100%!important;
+    height: 100%!important;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+option {
+  background: #f9f9fa;   /* Dropdown background */
+  color: #080808;        /* Dropdown text color */
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}

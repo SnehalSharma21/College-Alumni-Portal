@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎓 Student Courses</title>
+
+<link rel="stylesheet" href="{% static 'event.css' %}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="{% static 'style2.css' %}">
+
+<style>
+:root {
+    --neon-blue: #00f2ff;
+    --neon-pink: #ff00c8;
+    --bg-dark: #0f172a;
+}
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, var(--bg-dark), #081c1c, #004d4d);
+    color: white;
+    overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+#particles-js {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+}
+
+/* Header */
+header.header {
+    width: 100%;
+    height: 60px;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(5px);
+    position: fixed;
+    top: 0; left: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+header .logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--neon-blue);
+}
+.navbar a {
+    color: #0ef;
+    font-size: 18px;
+    margin-left: 15px;
+}
+.navbar a:hover { text-shadow: 0 0 6px #0ef; }
+
+/* Sidebar */
+.navigation {
+    position: fixed;
+    top: 80px;
+    left: 20px; /* gap from screen edge */
+    width: 90px; /* collapsed width */
+    height: calc(100vh - 100px);
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1.5px solid var(--neon-blue);
+    box-shadow: 0 0 20px rgba(0,255,255,0.3);
+    transition: width 0.3s ease;
+    z-index: 15;
+    overflow-x: visible;
+}
+.navigation.active { width: 250px; }
+
+.navigation ul {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+}
+.navigation ul li { margin: 5px 0; }
+.navigation ul li a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 15px;
+    color: white;
+    font-size: 16px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+.navigation ul li a:hover {
+    background: rgba(0,255,255,0.15);
+    box-shadow: 0 0 15px var(--neon-blue);
+    transform: translateX(3px);
+}
+.navigation .icon {
+    font-size: 26px!important;
+    min-width: 40px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.navigation .title {
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: 0.3s ease;
+}
+.navigation.active .title {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Toggle Button */
+.toggle {
+    margin: 10px auto;
+    background: var(--neon-blue);
+    width: 45px; height: 45px;
+    border-radius: 50%;
+    color: black;
+    display: flex;
+    align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 24px;
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 130px; /* 90px + 20px gap + 20px padding */
+    padding-top: 80px;
+    transition: margin-left 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+.main-content.shifted {
+    margin-left: 290px; /* 250px expanded + 20px gap + 20px padding */
+}
+
+/* Search Bar */
+.search-bar {
+    text-align: center;
+    margin-bottom: 20px;
+}
+#searchbar {
+    padding: 10px;
+    width: 250px;
+    border: 1px solid var(--neon-blue);
+    border-radius: 8px 0 0 8px;
+    background: rgba(0,255,255,0.05); color: white;
+}
+#searchbtn {
+    padding: 10px 14px;
+    border: none;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+    color: black; font-weight: bold;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+}
+#searchbtn:hover {
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* Courses Grid */
+.mainsec {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 15px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px,340px));
+    gap: 20px;
+}
+
+/* Course Card */
+.course-card {
+    background: rgba(0,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0,255,255,0.3);
+    border: 1px solid rgba(0,255,255,0.2);
+}
+.course-card img {
+    max-height: 140px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 15px var(--neon-blue);
+}
+.course-card h2 { color: var(--neon-blue); margin-bottom: 6px; }
+.course-card p { font-size: 0.85rem; opacity: 0.8; }
+.course-card small { font-size: 0.7rem; opacity: 0.6; }
+
+/* Action Buttons */
+.action-buttons {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+.action-buttons a.btn {
+    padding: 10px 15px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+    color: black;
+    border-radius: 25px;
+    font-weight: bold;
+    box-shadow: 0 0 15px var(--neon-pink);
+}
+.action-buttons a.btn:hover:not(.disabled) {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+    box-shadow: 0 0 20px var(--neon-blue);
+}
+.action-buttons a.disabled {
+    background: gray !important;
+    color: #ccc !important;
+    pointer-events: none;
+    box-shadow: none;
+}
+</style>
+</head>
+<body>
+
+<div id="particles-js"></div>
+
+<header class="header">
+    <a href="#" class="logo">College Alumni</a>
+    <nav class="navbar">
+        <a href="{% url 'homestart'%}">Home</a>
+        <a href="{% url 'about'%}">About</a>
+        <a href="{% url 'help'%}">Help</a>
+        <a href="{% url 'logout'%}">Logout</a>
+    </nav>
+</header>
+
+<!-- Sidebar -->
+<div class="navigation" id="sidebar">
+    <ul>
+        <li><a href="#"><span class="icon"><ion-icon name="logo-apple"></ion-icon></span><span class="title">Student Dashboard</span></a></li>
+        <li><a href="{% url 'events'%}"><span class="icon"><i class='bx bx-party'></i></span><span class="title">Events</span></a></li>
+        <li><a href="{% url 'faculty'%}"><span class="icon"><ion-icon name="people-outline"></ion-icon></span><span class="title">Teacher Info</span></a></li>
+        <li><a href="{% url 'stu_note'%}"><span class="icon"><ion-icon name="document-text-outline"></ion-icon></span><span class="title">Notes</span></a></li>
+        <li><a href="{% url 'stu_assingment'%}"><span class="icon"><ion-icon name="help"></ion-icon></span><span class="title">Assignments</span></a></li>
+        <li><a href="{% url 'show_courses'%}"><span class="icon"><i class='bx bx-video'></i></span><span class="title">Courses</span></a></li>
+        <li><a href="{% url 'stu_notice'%}"><span class="icon"><i class='bx bx-message-rounded'></i></span><span class="title">Notice</span></a></li>
+    </ul>
+    <div class="toggle" id="toggleBtn"><i class='bx bx-chevron-right'></i></div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content" id="mainContent">
+    <div class="search-bar">
+        <form method="GET">
+            <input id="searchbar" type="text" name="q" placeholder="Search courses..." value="{{query|default:''}}">
+            <button id="searchbtn" type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="mainsec">
+    {% for course in courses %}
+        <div class="course-card">
+            <img src="{% static 'thumbnail.jpg' %}" alt="Thumbnail">
+            <h2>{{ course.cname }}</h2>
+            <p>{{ course.cdesc|truncatewords:10 }}</p>
+            <small>By {{ course.uploaded_by }} on {{ course.date }}</small>
+            <div class="action-buttons">
+                {% if course.youtube_link %}
+                    <a class="btn" href="{{ course.youtube_link }}" target="_blank">▶ Watch on YouTube</a>
+                {% else %}
+                    <a class="btn " href="https://www.youtube.com/results?search_query=MSBTE+Computer+Engineering+Subjects">▶ Watch on YouTube</a>
+                {% endif %}  
+                {% if course.cfile %}
+                    <a class="btn" href="{{ course.cfile.url }}" download>⬇ Download Video</a>
+                {% else %}
+                    <a class="btn disabled" href="#">⬇ Download Video</a>
+                {% endif %}
+            </div>
+        </div>
+    {% empty %}
+        <p style="grid-column: 1/-1; text-align:center;">No courses found.</p>
+    {% endfor %}
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+particlesJS('particles-js', {
+  particles: { number: { value: 40, density: { enable: true, value_area: 700 } },
+    color: { value: "#00ffff" },
+    shape: { type: "circle" },
+    opacity: { value: 0.15, random: true },
+    size: { value: 4, random: true },
+    move: { enable: true, speed: 1, random: true }
+  }
+});
+
+// Sidebar Toggle
+const sidebar = document.getElementById('sidebar');
+const toggleBtn = document.getElementById('toggleBtn');
+const mainContent = document.getElementById('mainContent');
+
+toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    mainContent.classList.toggle('shifted');
+    toggleBtn.innerHTML = sidebar.classList.contains('active')
+        ? "<i class='bx bx-chevron-left'></i>"
+        : "<i class='bx bx-chevron-right'></i>";
+});
+</script>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

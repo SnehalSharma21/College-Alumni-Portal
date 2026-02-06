@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'help.css' %}">
+    <link rel="stylesheet" href="{% static 'style2.css' %}">
+    <link rel="stylesheet" href="{% static 'event.css' %}">
+</head>
+<body>
+   <div id="particles-js"></div>
+     <header class="header">
+      <a href="#" class="logo">Collge Alumni</a>
+        <nav class="navbar">
+            <a href="{% url 'homestart'%}" style="--i:1">Home</a>
+            <a href="{% url 'home_about'%}" style="--i:2">About</a>
+            <a href="{% url 'home_help'%}"style="--i:3">Help</a>
+            <a href="{% url 'logout'%}" style="--i:4">logout</a>
+        </nav>
+    </header>
+    <div class="main-section">
+     <div class="right-sec">
+    
+      </div>
+    </div>
+
+    <div id="help-container">
+
+        <!-- Heading -->
+        <div id="help-heading">
+            <h2>Help & Support</h2>
+        </div>
+
+        <!-- How to Use -->
+        <section>
+            <h3>How to Use This Website</h3>
+            <ul>
+                <li><strong>Login / Register:</strong> New users click “Sign Up” and fill details. Existing users login with email & password.</li>
+                <li><strong>View Events:</strong> Open the <em>Events</em> tab to see upcoming events and click “Register” to join.</li>
+                <li><strong>Notices & Announcements:</strong> Check the <em>Notices</em> section for the latest updates.</li>
+                <li><strong>Assignments & Notes:</strong> Download resources from the <em>Assignments</em> tab; upload your work if allowed.</li>
+                <li><strong>Attendance:</strong> Go to the <em>Attendance</em> tab to view your attendance records.</li>
+            </ul>
+        </section>
+
+        <!-- Common Issues -->
+        <section>
+            <h3>Common Issues & Solutions</h3>
+            <ul>
+                <li><strong>Forgot Password:</strong> Click “Forgot Password” on the login page and follow the instructions sent to your email.</li>
+                <li><strong>Website Loading Issues:</strong> Refresh, clear browser cache, or try another browser (Chrome, Firefox, Edge).</li>
+                <li><strong>Feature Access Problem:</strong> Some features depend on your role (Student, Alumni, Teacher, Admin). Contact support if you still face issues.</li>
+            </ul>
+        </section>
+
+        <!-- Contact Support -->
+        <section>
+            <h3>Need More Help?</h3>
+            <p>If your issue isn’t resolved here, you can contact the support team:</p>
+            <ul>
+                <li><strong>Email:</strong> support@yourdomain.com</li>
+                <li><strong>Phone:</strong> +91 XXXX-XXXXX</li>
+                <li><strong>Support Hours:</strong> Mon – Fri, 10:00 AM – 6:00 PM</li>
+            </ul>
+        </section>
+
+    </div>
+     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+      <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+     <script src="{% static 'script2.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+   <!-- Particles.js Config -->
+   <script>
+     particlesJS('particles-js', {
+       "particles": {
+         "number": { "value": 40, "density": { "enable": true, "value_area": 700 } },
+         "color": { "value": "#00f2ff" },
+         "shape": { "type": "circle" },
+         "opacity": { "value": 0.15, "random": true },
+         "size": { "value": 4, "random": true, "anim": { "enable": true, "speed": 2, "size_min": 1 } },
+         "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
+       },
+       "interactivity": {
+         "detect_on": "canvas",
+         "events": {
+           "onhover": { "enable": false },
+           "onclick": { "enable": false },
+           "resize": true
+         }
+       }
+     });
+   </script>
+</body>
+</html>

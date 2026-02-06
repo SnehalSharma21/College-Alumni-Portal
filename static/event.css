@@ -1,0 +1,246 @@
+:root {
+    --neon-blue: #004d4d;
+    --neon-pink: #ff00c8;
+    --bg-dark: #0f172a;
+}
+
+body {
+    margin: 0;
+    padding-top: 82px; /* navbar + divider space */
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom, var(--bg-dark) 0%, var(--bg-dark) 30%, var(--neon-blue) 100%);
+    color: #ffffff;
+}
+
+/* Navigation Bar */
+.nav {
+    width: 100%;
+    height: 80px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid var(--neon-blue);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-divider {
+    position: fixed;
+    top: 80px; /* below nav */
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, var(--bg-dark), var(--neon-blue), var(--neon-pink));
+    box-shadow: 0 0 8px var(--neon-blue), 0 0 16px var(--neon-pink);
+    z-index: 99;
+    pointer-events: none;
+}
+
+.nav h1 {
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+    margin: 0 0 0 16px;
+}
+
+.nav img {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--neon-blue);
+    box-shadow: 0 0 12px var(--neon-blue);
+    margin-left: 10px;
+}
+
+/* Main Layout */
+.main-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    flex-direction: row;
+    padding: 20px;
+}
+
+/* Sidebar Image Section */
+#div1 {
+    height: 800px;
+    width: 300px;
+    top: 5px;
+    background-image: url(/static/y.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    border: 2px solid var(--neon-blue);
+    box-shadow: 0 0 15px var(--neon-blue);
+}
+
+#div1 p {
+    color: #FFFFFF;
+    margin-top: 60px;
+    font-size: 20px;
+    padding: 10px;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(5px);
+    border-radius: 8px;
+}
+
+h2 {
+    color: white;
+    font-size: 20px;
+    text-shadow: 0 0 8px aqua ;
+    margin: 70px 0;
+    text-align: center;
+}
+
+.section-title {
+    color: white;
+    font-size: 20px;
+    text-shadow: 0 0 8px var(--neon-pink);
+    text-align: center;
+    margin: 40px 0 50px;
+}
+
+.techsec, .sportsec {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Event Card Container */
+.events {
+    height: 200px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    perspective: 1000px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+   
+    flex: 1 1 200px;
+    max-width: 220px;
+    margin: 10px;
+    background: rgba(0, 242, 255, 0.05);
+    backdrop-filter: blur(15px);
+}
+
+/* Flip effect */
+.card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.8s ease;
+    transform-style: preserve-3d;
+}
+
+.events.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Card Faces */
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Front Side — Neon Blue Glow */
+.card-front {
+    background:  rgba(15, 23, 42, 0.85);
+    border: 3px solid var(--neon-blue);
+    box-shadow: 0 0 20px rgb(52, 250, 250);
+}
+
+/* Back Side — Neon Pink Glow */
+.card-back {
+    transform: rotateY(180deg);
+    background: #1d0017;
+    border: 3px solid rgb(250, 3, 126);
+    box-shadow: 0 0 26px rgb(248, 4, 118);
+    color: white;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Hover scaling effect */
+.card-front:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px var(--neon-blue), 0 0 35px var(--neon-blue);
+
+}
+.card-back:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgb(252, 3, 119), 0 0 35px rgb(245, 3, 164);
+    
+}
+
+/* Register button */
+.reg {
+    padding: 10px 20px;
+    background: rgba(0, 242, 255, 0.08);
+    color: #f9fafc;
+    font-size: 17px;
+    border: 2px solid var(--neon-pink);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 12px var(--neon-pink);
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.reg:hover {
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+    color: #ffffff;
+    box-shadow: 0 0 20px var(--neon-blue);
+}
+
+/* Particles background */
+#particles-js {
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    background: transparent;
+}
+
+#particles-js canvas {
+    display: block;
+    width: 100%!important;
+    height: 100%!important;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+option {
+  background: #f9f9fa;   /* Dropdown background */
+  color: #080808;        /* Dropdown text color */
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}

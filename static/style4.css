@@ -1,0 +1,246 @@
+:root {
+    --neon-blue: #004d4d;
+    --neon-pink: #ff00c8;
+    --bg-dark: #0f172a;
+}
+
+/* Reset + Background */
+html, body {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom, var(--bg-dark) 0%, var(--bg-dark) 30%, var(--neon-blue) 100%);
+    color: #fff;
+    background-attachment: fixed;
+    position: relative;
+    z-index: 1;
+}
+
+/* Particles.js container */
+#particles-js {
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* stays in the back */
+    pointer-events: none;
+    background: transparent;
+}
+#particles-js canvas {
+    display: block;
+    width: 100%!important;
+    height: 100%!important;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Main Layout */
+.main {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1;
+    position: relative;
+}
+
+.lower-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px;
+}
+
+/* Close Button */
+#cross {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    color: var(--neon-blue);
+    font-size: 24px;
+    text-shadow: 0 0 10px var(--neon-blue);
+    transition: 0.3s ease;
+    z-index: 10;
+}
+#cross:hover {
+    color: var(--neon-pink);
+    text-shadow: 0 0 12px var(--neon-pink), 0 0 20px var(--neon-blue);
+}
+
+/* Center Add Event Button */
+.center-add-btn {
+    text-align: center;
+    margin: 80px auto;
+}
+
+.add-event-label {
+    display: inline-block;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+    color: black;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 10px var(--neon-blue);
+   
+}
+.add-event-label:hover {
+    box-shadow: 0 0 20px var(--neon-pink);
+    transform: scale(1.05);
+}
+
+/* Hide checkbox */
+#toggle-form {
+    display: none;
+}
+
+/* Form Popup */
+.popup-form {
+    position: relative;
+    display: none;
+    width: 320px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    border: 2px solid var(--neon-blue);
+    border-radius: 10px;
+    box-shadow: 0 0 20px var(--neon-blue);
+    animation: fadeIn 0.5s ease-in-out;
+    z-index: 2;
+}
+#toggle-form:checked + .popup-form {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* Form Inputs */
+input, textarea, select {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 10px;
+    background: rgba(0, 242, 255, 0.08);
+    color: white;
+    border-radius: 5px;
+    border: 1px solid var(--neon-blue);
+    box-shadow: 0 0 5px var(--neon-blue);
+    transition: 0.3s ease;
+    font-family: inherit;
+}
+input:hover, textarea:hover, select:hover {
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 10px var(--neon-pink);
+}
+input::placeholder, textarea::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+/* Event Card */
+.event-card {
+    width: 200px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    border: 2px solid var(--neon-blue);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 0 15px var(--neon-blue);
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+    z-index: 1;
+}
+.event-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--neon-blue), 0 0 35px var(--neon-blue);
+}
+.event-card h3 {
+    margin-top: 0;
+    font-weight: bold;
+    color: var(--neon-blue);
+    text-shadow: 0 0 8px var(--neon-blue);
+}
+
+/* Submit Button inside Event Card */
+.event-card input[type="submit"] {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+    color: black;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--neon-blue);
+    transition: all 0.3s ease-in-out;
+}
+.event-card input[type="submit"]:hover {
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+    box-shadow: 0 0 15px var(--neon-pink);
+    transform: scale(1.05);
+}
+
+/* Main Submit Button */
+#submit-btn {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+    width: 100px; 
+    height: 40px;  
+    color: black;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 0 10px var(--neon-blue);
+    margin-left: 90px;
+}
+#submit-btn:hover {
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+    box-shadow: 0 0 15px var(--neon-pink);
+}
+
+/* Delete Button */
+#delete-btn {
+    background: rgba(0, 242, 255, 0.08);
+    width: 130px; 
+    height: 40px;  
+    color: white;
+    border: 2px solid var(--neon-blue);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+#delete-btn:hover {
+    border: 1px solid var(--neon-pink);
+    color: rgb(247, 242, 242);
+    box-shadow: 0 0 15px var(--neon-pink);
+}
+option {
+  background: #f9f9fa;   /* Dropdown background */
+  color: #080808;        /* Dropdown text color */
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Royal Scroll Form - Neon Theme</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+:root {
+    --neon-blue: #00f2ff;
+    --neon-pink: #ff00c8;
+    --bg-dark: #0f172a;
+}
+
+/* ===== BACKGROUND & TEXT ===== */
+body {
+    background: linear-gradient(135deg, var(--bg-dark), #081c1c, #004d4d);
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    padding: 40px;
+    color: var(--neon-blue);
+}
+
+/* ===== TITLE ===== */
+h1 {
+    margin-bottom: 20px;
+    text-shadow: 0 0 15px var(--neon-blue);
+}
+
+/* ===== TOGGLE BUTTON ===== */
+#toggleBtn {
+    padding: 10px 25px;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+    color: black;
+    font-size: 18px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 0 15px var(--neon-pink);
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+#toggleBtn:hover {
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+    box-shadow: 0 0 25px var(--neon-blue);
+}
+
+/* ===== SCROLL CONTAINER ===== */
+.scroll-container {
+    margin: 50px auto;
+    width: 420px;
+    position: relative;
+}
+
+/* ===== HANDLES ===== */
+.handle {
+    height: 20px;
+    background: linear-gradient(to right, var(--neon-pink), var(--neon-blue), var(--neon-pink));
+    border-radius: 20px;
+    box-shadow: 0 0 12px var(--neon-blue);
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+.top-handle { top: 0; }
+.bottom-handle { position: absolute; }
+
+/* ===== SCROLL PAPER ===== */
+.scroll-paper {
+    background: rgba(0,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border-left: 4px solid var(--neon-blue);
+    border-right: 4px solid var(--neon-blue);
+    box-shadow: 0 0 15px var(--neon-blue);
+    transform-origin: top center;
+    transform: scaleY(0);
+    opacity: 0;
+    padding: 40px 20px;
+    margin-top: 20px;
+    border-radius: 0 0 20px 20px; 
+    border-top: 1px solid rgba(0, 242, 255, 0.6);
+    border-bottom: 1px solid rgba(255, 0, 200, 0.6);
+}
+
+/* ===== FORM INSIDE SCROLL ===== */
+.scroll-paper h2 {
+    margin-top: 0;
+    color: var(--neon-pink);
+    text-shadow: 0 0 10px var(--neon-pink);
+}
+
+.scroll-paper input,
+.scroll-paper button {
+    width: 100%;
+    margin: 6px 0;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1.5px solid rgba(0, 242, 255, 0.4);
+    background: rgba(0, 255, 255, 0.05);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.scroll-paper input:focus {
+    outline: none;
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 10px var(--neon-pink);
+    background: rgba(255, 0, 200, 0.1);
+}
+
+/* ===== SUBMIT BUTTON ===== */
+.scroll-paper button {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+    border: none;
+    font-weight: 700;
+    color: black;
+    cursor: pointer;
+    box-shadow: 0 0 15px var(--neon-pink);
+}
+.scroll-paper button:hover {
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+    box-shadow: 0 0 25px var(--neon-blue);
+}
+</style>
+</head>
+<body>
+
+<h1>Royal Scroll Form</h1>
+<button id="toggleBtn">Open / Close Scroll</button>
+
+<div class="scroll-container">
+    <div class="top-handle handle"></div>
+    <div class="scroll-paper" id="scrollPaper">
+        <h2>Royal Invitation</h2>
+        <input type="text" placeholder="Your Name">
+        <input type="email" placeholder="Your Email">
+        <button>Send</button>
+    </div>
+    
+
+<script>
+const paper = document.getElementById('scrollPaper');
+const bottomHandle = document.getElementById('bottomHandle');
+let isOpen = false;
+let openHeight;
+
+window.onload = () => {
+    paper.style.visibility = "hidden";
+    paper.style.transform = "scaleY(1)";
+    paper.style.opacity = "1";
+    openHeight = paper.offsetHeight;
+    paper.style.visibility = "visible";
+    paper.style.transform = "scaleY(0)";
+    paper.style.opacity = "0";
+    bottomHandle.style.top = "20px";
+};
+
+function openScroll() {
+    gsap.to(paper, {
+        scaleY: 1,
+        opacity: 1,
+        duration: 2,
+        ease: "elastic.out(1,0.4)",
+        transformOrigin: "top center",
+        onUpdate: function () {
+            const p = this.progress();
+            bottomHandle.style.top = (20 + openHeight * p) + "px";
+        },
+        onComplete: function () {
+            bottomHandle.style.top = (20 + openHeight) + "px";
+        }
+    });
+}
+
+function closeScroll() {
+    gsap.to(paper, {
+        scaleY: 0,
+        opacity: 0,
+        duration: 1.5,
+        ease: "power2.in",
+        transformOrigin: "top center",
+        onUpdate: function () {
+            const p = this.progress();
+            bottomHandle.style.top = (20 + openHeight * (1 - p)) + "px";
+        },
+        onComplete: function () {
+            bottomHandle.style.top = "20px";
+        }
+    });
+}
+
+document.getElementById('toggleBtn').addEventListener('click', () => {
+    isOpen = !isOpen;
+    if (isOpen) openScroll();
+    else closeScroll();
+});
+</script>
+
+</body>
+</html>

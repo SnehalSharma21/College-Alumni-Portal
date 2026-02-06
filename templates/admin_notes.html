@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>📄 Admin Notes Panel</title>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="{% static 'style4.css' %}"> 
+<link rel="stylesheet" href="{% static 'style2.css' %}">
+
+<style>
+:root {
+  --neon-blue: #00f2ff;
+  --neon-pink: #ff00c8;
+  --bg-dark: #0f172a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, var(--bg-dark), #081c1c, #004d4d);
+  color: white;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+
+#particles-js {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Header */
+header.header {
+  width: 100%;
+  height: 60px;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  position: fixed;
+  top: 0; left: 0;
+  backdrop-filter: blur(5px);
+  z-index: 20;
+}
+header .logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--neon-blue);
+}
+.navbar a {
+  color: #0ef;
+  font-size: 18px;
+  margin-left: 15px;
+}
+.navbar a:hover {
+  text-shadow: 0 0 6px #0ef;
+}
+
+/* Sidebar Floating */
+.navigation {
+  position: fixed;
+  top: 80px; /* Below header */
+  left: 20px;
+  width: 80px; /* collapsed */
+  height: calc(100vh - 100px);
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  border: 1.5px solid var(--neon-blue);
+  box-shadow: 0 0 20px rgba(0,255,255,0.3);
+  transition: width 0.3s ease;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.navigation.active { width: 250px; }
+
+.navigation ul {
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  flex: 1;
+}
+.navigation ul li { margin: 5px 0; }
+.navigation ul li a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 15px;
+  color: white;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+.navigation ul li a:hover {
+  background: rgba(0,255,255,0.15);
+  box-shadow: 0 0 15px var(--neon-blue);
+  transform: translateX(3px);
+}
+.navigation .icon {
+  font-size: 26px; 
+  min-width: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.navigation .title {
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: 0.3s ease;
+}
+.navigation.active .title {
+  opacity: 1; transform: translateX(0);
+}
+
+/* Toggle Button */
+.toggle {
+  margin: 10px auto;
+  background: var(--neon-blue);
+  width: 45px; height: 45px;
+  border-radius: 50%;
+  color: black;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 24px;
+  box-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* Main Content */
+.main {
+  margin-left: 120px;
+  padding-top: 80px;
+  transition: margin-left 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+.main.expand { margin-left: 290px; }
+
+/* Theme text */
+.theme-subtext {
+  text-align: center;
+  font-size: 30px;
+  color: var(--neon-pink);
+  margin-bottom: 20px;
+}
+
+/* Upload Form */
+.upload-form {
+  margin: 20px auto;
+  max-width: 900px;
+  background: rgba(0,255,255,0.1);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(0,252,255,0.3);
+  border: 1.5px solid var(--neon-blue);
+  display: flex; flex-direction: column;
+  gap: 15px;
+}
+.upload-form input, .upload-form textarea {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1.5px solid #00f2ff66;
+  background: rgba(0,255,255,0.05);
+  color: white;
+}
+.upload-form button {
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+  color: black; font-weight: 700;
+  border: none; border-radius: 25px;
+  cursor: pointer; padding: 12px 20px;
+  box-shadow: 0 0 30px var(--neon-pink);
+}
+
+/* Cards Flip */
+.notes-container {
+  max-width: 900px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+.note-card { perspective: 1000px; min-height: 270px; height: auto; cursor: pointer; }
+.note-inner {
+  width: 100%; height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  box-shadow: 0 0 20px var(--neon-pink);
+  border-radius: 16px;
+}
+.note-inner.flipped { transform: rotateY(180deg); }
+.note-front, .note-back {
+  width: 100%; height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  background: rgba(0,255,255,0.12);
+  padding: 20px;
+}
+.note-front img {
+  max-height: 100px; width: 100%;
+  border-radius: 12px; object-fit: cover;
+  margin-bottom: 15px;
+  box-shadow: 0 0 15px var(--neon-blue);
+}
+.note-back {
+  transform: rotateY(180deg);
+  background: rgba(255,0,200,0.15);
+  border: 1.5px solid var(--neon-pink);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 15px;
+}
+.note-back button {
+  padding: 12px 20px;
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+  color: black; border: none;
+  border-radius: 28px; font-weight: 700;
+}
+</style>
+</head>
+<body>
+<div id="particles-js"></div>
+
+<header class="header">
+  <a href="#" class="logo">College Alumni</a>
+  <nav class="navbar">
+    <a href="{% url 'homestart'%}">Home</a>
+    <a href="{% url 'admin_about'%}">About</a>
+    <a href="{% url 'admin_help'%}">Help</a>
+     <a href="{% url 'records'%}" style="--i:4">Record</a>
+    <a href="{% url 'logout'%}">Logout</a>
+  </nav>
+</header>
+
+<!-- Sidebar -->
+<div class="navigation" id="sidebar">
+  <ul>
+    <li><a href="#"><span class="icon"><i class='bx bxl-apple'></i></span><span class="title">Admin Dashboard</span></a></li>
+    <li><a href="{% url 'add_attendance'%}"><span class="icon"><i class='bx bx-calendar-alt'></i></span><span class="title">Attendance</span></a></li>
+    <li><a href="{% url 'admin_events'%}"><span class="icon"><i class='bx bx-party'></i></span><span class="title">Events</span></a></li>
+    <li><a href="{% url 'admin_faculty'%}"><span class="icon"><i class='bx bx-group'></i></span><span class="title">Teacher Info</span></a></li>
+    <li><a href="{% url 'admin_note'%}"><span class="icon"><i class='bx bx-file'></i></span><span class="title">Notes</span></a></li>
+    <li><a href="{% url 'admin_assingment'%}"><span class="icon"><i class='bx bx-task'></i></span><span class="title">Assignments</span></a></li>
+    <li><a href="{% url 'upload_course'%}"><span class="icon"><i class='bx bx-video'></i></span><span class="title">Courses</span></a></li>
+    <li><a href="{% url 'admin_notice'%}"><span class="icon"><i class='bx bx-message-rounded'></i></span><span class="title">Notice</span></a></li>
+  </ul>
+  <div class="toggle" id="toggleBtn"><i class='bx bx-chevron-left'></i></div>
+</div>
+
+<!-- Main -->
+<div class="main" id="mainContent">
+  <div class="theme-subtext">✨ Manage your notes here.... ✨</div>
+
+  <!-- Upload -->
+  <form action="{% url 'admin_note' %}" method="post" enctype="multipart/form-data" class="upload-form">
+    {% csrf_token %}
+    <input type="text" name="note" placeholder="Notes name" required/>
+    <textarea name="ndescribe" placeholder="Notes Description" rows="4" required></textarea>
+    <input type="date" name="ndate" required/>
+    <input type="time" name="ntime" required/>
+    <input type="text" name="updatedby" placeholder="Updated by" required/>
+    <input type="text" name="sub" placeholder="Subject" required/>
+    <input type="file" name="file" required/>
+    <button type="submit">Upload Note</button>
+  </form>
+
+  <!-- Notes -->
+  <div class="notes-container">
+    {% for note in notes %}
+    <div class="note-card">
+      <div class="note-inner">
+        <div class="note-front">
+          <img src="{% static 'thumbnail.jpg' %}" alt="Thumbnail" />
+          <div class="title">{{ note.note }}</div>
+          <div class="meta">{{ note.ndescribe }}</div>
+          <div class="desc">
+            Uploaded by: {{ note.updatedby }}<br/>
+            Date: {{ note.ndate }} | Time: {{ note.ntime }}<br/>
+            Subject: {{ note.sub }}
+          </div>
+        </div>
+        <div class="note-back">
+          <p>Do you really want to delete this note?</p>
+          <form method="post" action="{% url 'delete_note' note.id %}">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p style="grid-column:1/-1; text-align:center; color:var(--neon-pink);">No notes found.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+particlesJS('particles-js', {
+  particles: { number: { value: 40, density: { enable: true, value_area: 700 } },
+    color: { value: "#00ffff" },
+    shape: { type: "circle" },
+    opacity: { value: 0.15, random: true },
+    size: { value: 4, random: true },
+    move: { enable: true, speed: 1, random: true }
+  }
+});
+
+// Sidebar toggle
+const toggleBtn = document.getElementById('toggleBtn');
+const sidebar = document.getElementById('sidebar');
+const mainContent = document.getElementById('mainContent');
+toggleBtn.addEventListener('click', () => {
+  sidebar.classList.toggle('active');
+  mainContent.classList.toggle('expand');
+  toggleBtn.innerHTML = sidebar.classList.contains('active')
+    ? "<i class='bx bx-chevron-left'></i>"
+    : "<i class='bx bx-chevron-right'></i>";
+});
+
+// Card flip
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.note-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      if (!e.target.closest('form')) {
+        this.querySelector('.note-inner').classList.toggle('flipped');
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

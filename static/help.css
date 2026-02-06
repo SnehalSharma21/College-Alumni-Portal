@@ -1,0 +1,106 @@
+html, body {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #0f172a 0%, #0f172a 30%, #004d4d 100%);
+    color: #fff;
+}
+
+/* Main Help Container */
+#help-container {
+    width: 800px;
+    flex-shrink: 0;
+    margin-top: 50px;
+    margin-left:400px;
+    margin-right: 300px;
+    padding: 30px;
+    background: linear-gradient(to bottom, #014949 0%, #014a48 100%);
+    color: #fafbfc;
+    border: 2px solid #00ffff;
+    border-radius: 12px;
+    box-shadow: 0 0 20px #00ffff;
+}
+
+/* Heading Section */
+#help-heading {
+    background: linear-gradient(to right, #02baba, #02d8d8);
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 10px aqua;
+}
+
+#help-heading h2 {
+    margin: 0;
+    color: #fff;
+}
+
+/* Section headings */
+#help-container h3 {
+    color: #01e0fd;
+    margin-top: 20px;
+}
+
+/* Lists */
+#help-container ul {
+    list-style-type: disc;
+    padding-left: 25px;
+}
+
+#help-container li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+/* Paragraph */
+#help-container p {
+    margin-bottom: 10px;
+}
+.main-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-direction: row;
+}
+
+.right-sec {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#particles-js {
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* stays in the back */
+    pointer-events: none;
+    background: transparent;
+}
+#particles-js canvas {
+    display: block;
+    width: 100%!important;
+    height: 100%!important;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+option {
+  background: #f9f9fa;   /* Dropdown background */
+  color: #080808;        /* Dropdown text color */
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}

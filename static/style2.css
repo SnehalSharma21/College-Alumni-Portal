@@ -1,0 +1,188 @@
+ :root {
+            --neon-blue: #00f2ff;
+            --neon-pink: #ff00c8;
+            --bg-dark1: #0f172a;
+            --bg-dark2: #081c1c;
+            --bg-dark3: #004d4d;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg-dark1), var(--bg-dark2), var(--bg-dark3));
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Particles.js background */
+        #particles-js {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+        }
+
+        /* Top Navbar */
+        .top-navbar {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(15, 23, 42, 0.85);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1001;
+            border-bottom: 2px solid var(--neon-blue);
+            box-shadow: 0 2px 10px rgba(0,255,255,0.2);
+        }
+        .top-navbar a {
+            color: var(--neon-blue);
+            margin-left: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .top-navbar a:hover {
+            color: var(--neon-pink);
+            text-shadow: 0 0 8px var(--neon-pink);
+        }
+
+        /* Sidebar Navigation */
+        .navigation {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            height: calc(100% - 100px);
+            width: 80px;
+            background: linear-gradient(135deg, var(--bg-dark1), var(--bg-dark2), var(--bg-dark3));
+            border-left: 3px solid var(--neon-blue);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,255,255,0.3);
+            transition: 0.4s ease;
+            z-index: 900;
+        }
+        .navigation.active { width: 250px; }
+
+        .navigation ul {
+            margin-top: 20px;
+            list-style: none;
+            padding: 0;
+        }
+        .navigation ul li {
+            margin: 8px 0;
+        }
+        .navigation ul li a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: white;
+            border-radius: 12px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .navigation ul li a:hover {
+            background: rgba(0,255,255,0.15);
+            box-shadow: 0 0 15px var(--neon-blue);
+            transform: translateX(5px);
+        }
+        .navigation .icon {
+            font-size: 27px;
+            min-width: 40px;
+            text-align: center;
+        }
+        .navigation .title {
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(-15px);
+            transition: 0.4s;
+        }
+        .navigation.active .title {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Toggle Button */
+        .toggle {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 45px; height: 45px;
+            background: #1a1717;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0,255,255,0.4);
+        }
+        .toggle::before, .toggle::after {
+            content: '';
+            position: absolute;
+            width: 24px; height: 3px;
+            background: white;
+            border-radius: 3px;
+            transition: 0.4s;
+        }
+        .toggle::before { transform: translateY(-5px); }
+        .toggle::after { transform: translateY(5px); }
+        .navigation.active .toggle::before { transform: rotate(45deg); }
+        .navigation.active .toggle::after { transform: rotate(-45deg); }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 120px;
+            margin-top: 100px;
+            z-index: 1;
+            position: relative;
+            transition: margin-left 0.4s ease;
+        }
+        .navigation.active ~ .main-content {
+            margin-left: 270px;
+        }
+/* HEADER BAR */
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 20px 10px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: space-between;
+  z-index: 100;
+  border-bottom: 2px solid var(--neon-blue);
+}
+.logo {
+  font-size: 25px;
+  color: var(--neon-blue);
+  font-weight: 600;
+  text-shadow: 0 0 6px var(--neon-blue);
+  text-decoration: none;
+}
+.navbar a {
+  font-size: 18px;
+  color: var(--neon-blue);
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-decoration:none ;
+  padding: 20px;
+}
+.navbar a:hover,
+.navbar a.active {
+  color: var(--neon-pink);
+  text-shadow: 0 0 6px var(--neon-pink);
+}
+option {
+  background: #f9f9fa;   /* Dropdown background */
+  color: #080808;        /* Dropdown text color */
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}

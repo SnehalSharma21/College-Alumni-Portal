@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Events</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'style4.css' %}"> 
+    <link rel="stylesheet" href="{% static 'style2.css' %}">
+   
+</head>
+<body>
+   <!-- Particles Background -->
+   <div id="particles-js"></div>
+
+   <div class="main-section">
+     <header class="header">
+       <a href="#" class="logo">College Alumni</a>
+       <nav class="navbar">
+            <a href="{% url 'homestart'%}" style="--i:1">Home</a>
+            <a href="{% url 'admin_about'%}" style="--i:2">About</a>
+            <a href="{% url 'admin_help'%}" style="--i:3">Help</a>
+             <a href="{% url 'records'%}" style="--i:4">Record</a>
+            <a href="{% url 'logout'%}" style="--i:4">Logout</a>
+       </nav>
+     </header>
+     
+     <div class="right-sec">
+       <div class="navigation">
+         <ul>
+           <li>
+             <a href="#">
+               <span class="icon"><ion-icon name="logo-apple"></ion-icon></span>
+               <span class="title">Admin Dashboard</span>
+             </a>
+           </li>
+
+            <li>
+             <a href="{% url 'add_attendance'%}">
+               <span class="icon"><i class='bx  bx-calendar-alt' ></i></span>
+               <span class="title">Attendance</span>
+             </a>
+           </li>
+           <li>
+             <a href="{% url 'admin_events'%}">
+               <span class="icon"><i class='bx bx-party bx-rotate-180 bx-flip-horizontal' ></i></span>
+               <span class="title">Events</span>
+             </a>
+           </li>
+           <li>
+             <a href="{% url 'admin_faculty'%}">
+               <span class="icon"><ion-icon name="people-outline" ></ion-icon></span>
+               <span class="title">Teacher Information</span>
+             </a>
+           </li>
+           <li>
+             <a href="{% url 'admin_note'%}">
+               <span class="icon"><ion-icon name="document-text-outline" ></ion-icon></span>
+               <span class="title">Notes</span>
+             </a>
+           </li>
+           <li>
+             <a href="{% url 'admin_assingment'%}">
+               <span class="icon"><ion-icon name="help"></ion-icon></span>
+               <span class="title">Assignments</span>
+             </a>
+           </li>
+           <li>
+             <a href="{% url 'upload_course'%}">
+               <span class="icon"><i class='bx bx-video' ></i></span>
+               <span class="title">Courses</span>
+             </a>
+           </li>
+           <li>
+             <a href="{% url 'admin_notice'%}">
+               <span class="icon"><i class='bx bx-message-rounded' ></i></span>
+               <span class="title">Notice</span>
+             </a>
+           </li>
+         </ul>
+         <div class="toggle"></div>
+       </div>
+     </div>
+
+     <div class="main">
+       <!-- Add Event Button Center -->
+       <div class="center-add-btn">
+         <label for="toggle-form" class="add-event-label">+ Add New Event</label>
+       </div>
+
+       <!-- Hidden Checkbox -->
+       <input type="checkbox" id="toggle-form" hidden>
+
+       <!-- Add Event Form -->
+       <div class="popup-form">
+         <label for="toggle-form" id="cross">x</label>
+         <form action="{% url 'admin_events' %}" method="POST">
+           {% csrf_token %}
+           <h3 style="text-align:center;">Add New Event</h3>
+           <input type="text" name="title" placeholder="Event Title" required>
+           <input type="date" name="date" required>
+           <input type="time" name="time" required>
+           <select name="category" required id="category">
+             <option value="">-- Select Category --</option>
+             <option value="Technical">Technical</option>
+             <option value="Sports">Sports</option>
+           </select>
+           <textarea name="description" placeholder="Event Description" rows="4" required></textarea>
+           <button type="submit" value="Submit" id="submit-btn">Submit</button>
+         </form>
+       </div>
+    
+       <h2 style="text-align:center;">Existing Events</h2>
+       <div class="lower-section">
+         {% if events %}
+           {% for event in events %} 
+             <div class="event-card">
+               <h3>{{ event.title }}</h3>
+               <p>{{ event.description }}</p>
+               <p>Date: {{ event.date }}</p>
+               <p>Time: {{ event.time }}</p>
+               <form method="POST" action="{% url 'delete_event' event.id %}">
+                 {% csrf_token %}
+                 <input type="submit" value="Delete Event" id="delete-btn">
+               </form>
+             </div>
+           {% endfor %}
+         {% else %}
+           <p>No events yet.</p>
+         {% endif %}
+       </div>
+     </div>
+   </div>
+
+   <!-- Icons & Scripts -->
+   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+   <script src="{% static 'script2.js' %}"></script>
+
+   <!-- Particles.js Library -->
+   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+   <!-- Particles.js Config -->
+   <script>
+     particlesJS('particles-js', {
+       "particles": {
+         "number": { "value": 40, "density": { "enable": true, "value_area": 700 } },
+         "color": { "value": "#00f2ff" },
+         "shape": { "type": "circle" },
+         "opacity": { "value": 0.15, "random": true },
+         "size": { "value": 4, "random": true, "anim": { "enable": true, "speed": 2, "size_min": 1 } },
+         "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
+       },
+       "interactivity": {
+         "detect_on": "canvas",
+         "events": {
+           "onhover": { "enable": false },
+           "onclick": { "enable": false },
+           "resize": true
+         }
+       }
+     });
+   </script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📓 Student Notes</title>
+
+  <!-- Boxicons -->
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+  <link rel="stylesheet" href="{% static 'event.css' %}">
+  <link rel="stylesheet" href="{% static 'style2.css' %}">
+
+  <style>
+    :root {
+      --neon-blue: #00f2ff;
+      --neon-pink: #ff00c8;
+      --bg-dark: #0f172a;
+    }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark), #081c1c, #004d4d);
+      color: white;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* Background Particles */
+    #particles-js {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Header */
+    header.header {
+      width: 100%;
+      height: 60px;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(5px);
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+    header .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--neon-blue);
+    }
+    .navbar a {
+      color: #0ef;
+      font-size: 18px;
+      margin-left: 15px;
+    }
+    .navbar a:hover {
+      text-shadow: 0 0 6px #0ef;
+    }
+
+    /* Sidebar Floating */
+    .navigation {
+      position: fixed;
+      top: 80px; /* Below header */
+      left: 20px; /* Right offset */
+      width: 80px; /* collapsed */
+      height: calc(100vh - 100px); /* Gap top/bottom */
+      background: linear-gradient(135deg, var(--bg-dark1), var(--bg-dark2), var(--bg-dark3));
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,255,255,0.3);
+      border: 1.5px solid var(--neon-blue);
+      transition: width 0.3s ease;
+      z-index: 15;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .navigation.active { width: 250px; }
+    .navigation ul {
+      list-style: none;
+      padding: 10px 0;
+      margin: 0;
+      flex: 1;
+    }
+    .navigation ul li {
+      margin: 5px 0;
+    }
+    .navigation ul li a {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 15px;
+      color: white;
+      border-radius: 12px;
+      transition: 0.3s;
+    }
+    .navigation ul li a:hover {
+      background: rgba(0,255,255,0.15);
+      box-shadow: 0 0 15px var(--neon-blue);
+      transform: translateX(3px);
+    }
+    .navigation .icon {
+      font-size: 26px; /* bigger icons */
+      min-width: 26px;
+      text-align: center;
+    }
+    .navigation .title {
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: 0.3s ease;
+    }
+    .navigation.active .title {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Toggle Button */
+    .toggle {
+      margin: 10px auto;
+      background: var(--neon-blue);
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 24px;
+      box-shadow: 0 0 10px var(--neon-blue);
+      transition: 0.3s;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 120px;
+      padding-top: 80px;
+      transition: margin-left 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+    .main-content.expand {
+      margin-left: 290px;
+    }
+
+    /* Search Bar */
+    .search-bar {
+      margin-top: -50px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .search-bar input {
+      padding: 10px;
+      width: 250px;
+      border: 1px solid var(--neon-blue);
+      border-radius: 8px 0 0 8px;
+      background: rgba(0,255,255,0.05);
+      color: white;
+    }
+    .search-bar button {
+      padding: 10px 14px;
+      border: none;
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+      color: black;
+      font-weight: bold;
+      border-radius: 0 8px 8px 0;
+      cursor: pointer;
+    }
+    .search-bar button:hover {
+      background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+      box-shadow: 0 0 10px var(--neon-blue);
+    }
+
+    /* Notes Grid */
+    .notes-container {
+      max-width: 1100px;
+      margin:80px auto;
+      padding: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
+      gap: 30px;
+      justify-content: center;
+      align-items: center;
+    }
+    .note-card {
+      background: rgba(0,255,255,0.1);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,255,255,0.3);
+      border: 1.5px solid transparent;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .note-card:hover {
+      box-shadow: 0 0 25px var(--neon-pink);
+      border-color: var(--neon-pink);
+      transform: scale(1.03);
+    }
+    .note-card .title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--neon-blue);
+    }
+    .note-card .meta {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    .note-card .desc {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+    .actions {
+      margin-top: auto;
+    }
+    .actions a button {
+      padding: 10px 15px;
+      background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+      color: black;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      width: 100%;
+    }
+    .note-card:hover .actions a button {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width:768px) {
+      .navigation {
+        transform: translateX(-120%);
+        position: fixed;
+      }
+      .navigation.active {
+        transform: translateX(0);
+      }
+      .main-content, .main-content.expand {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background -->
+<div id="particles-js"></div>
+   <header class="header">
+      <a href="#" class="logo">Collge Alumni</a>
+        <nav class="navbar">
+            <a href="{% url 'homestart'%}" style="--i:1">Home</a>
+            <a href="{% url 'about'%}" style="--i:2">About</a>
+            <a href="{% url 'help'%}"style="--i:3">Help</a>
+            <a href="{% url 'logout'%}" style="--i:4">logout</a>
+        </nav>
+    </header>
+
+
+    <div class="right-sec">
+           <div class="navigation">
+        <ul>
+          
+        <li class="dashboard-title">
+          <a href="#" style="display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none;">
+            <i class='bx bxs-graduation' style="color: var(--neon-pink); font-size: 1.8em; filter: drop-shadow(0 0 6px var(--neon-pink));"></i>
+            <span class="title" style="color: var(--neon-blue); font-size: 1.2em; font-weight: bold; letter-spacing: 0.5px; text-shadow: 0 0 8px var(--neon-blue);">Student Dashboard</span>
+          </a>
+        </li>
+        
+          <li>
+            <a href="{% url 'events'%}">
+              <span class="icon">
+                <i class='bx  bx-party bx-rotate-180 bx-flip-horizontal'  
+              style="font-size: 40px;"></i> </span>
+              <span class="title">Events</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'faculty'%}">
+              <span class="icon"><ion-icon 
+              name="people-outline" ></ion-icon></span>
+              <span class="title">Teacher Information</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'stu_note'%}">
+              <span class="icon"><ion-icon
+              name="document-text-outline"></ion-icon></span>
+              <span class="title">Notes</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'stu_assingment'%}">
+              <span class="icon"><ion-icon 
+              name="help" ></ion-icon></span>
+              <span class="title"> Assignments</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'show_courses'%}">
+              <span class="icon">
+              <i class='bx  bx-video' ></i></span>
+              <span class="title">Courses</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'stu_notice'%}">
+              <span class="icon">
+                 <i class='bx  bx-message-rounded' ></i> </span>
+              <span class="title">Notice</span>
+            </a>
+          </li>
+        <div class="toggle">
+
+        </div>
+    </div>
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+    <form method="GET" class="search-bar">
+      <input type="text" name="q" placeholder="Search notes..." value="{{query|default:''}}">
+      <button type="submit">Search</button>
+    </form>
+
+    <div class="notes-container">
+      {% for note in notes %}
+      <div class="note-card">
+        <div class="title">{{note.note}}</div>
+        <div class="meta">📅 {{note.ndate}} | 🕒 {{note.ntime}}</div>
+        <div class="desc">📌 Uploaded by: {{note.updatedby}} <br> 📝 {{note.ndescribe}}</div>
+        <div class="actions">
+          <a href="{{note.file.url}}" download><button>⬇ Download</button></a>
+        </div>
+      </div>
+      {% empty %}
+      <p style="grid-column:1/-1; text-align:center;">No notes found.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    // Particles
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 40, density: { enable: true, value_area: 700 } },
+        color: { value: "#00ffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.15, random: true },
+        size: { value: 4, random: true },
+        move: { enable: true, speed: 1, random: true }
+      }
+    });
+
+    // Toggle Sidebar
+    const toggleBtn = document.getElementById('toggleBtn');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      mainContent.classList.toggle('expand');
+      toggleBtn.innerHTML = sidebar.classList.contains('active')
+        ? "<i class='bx bx-chevron-left'></i>"
+        : "<i class='bx bx-chevron-right'></i>";
+    });
+  </script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
