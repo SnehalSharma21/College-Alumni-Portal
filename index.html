@@ -1,8 +1,59 @@
-<!DOCTYPE html>
-<html>
+<html lang="en">
+{% load static %}
 <head>
-  <meta http-equiv="refresh" content="0; url=template/homepage.html">
+    <meta charset="UIF-8">
+    <meta http-equiv="X-UA-Compatible" content="IF=edge">
+    <meta name="viewport" content="width-device-width, initial-scale=1.0">
+    <title>My web page</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+   <link rel="stylesheet" href="{% static 'style.css' %}">
+
 </head>
+
 <body>
+
+    <header class="header">
+
+        <a href="#" class="logo">Collge Alumni</a>
+        <nav class="navbar">
+            <a href="{% url 'homestart'%}"style="--i:5">Home</a>
+            <a href="{% url 'home_about'%}" style="--i:5">About</a>
+            <a href="{% url 'home_help'%}" style="--i:2">Help</a>
+        </nav>
+    </header>
+    <section class="home">
+        <div class="home-content">
+            <h3>Welcome,to the Department of</h3>
+            <h1>
+                <i>Computer</i>
+            </h1>
+            <h1>
+                <i>Engineering</i>
+            </h1>
+            <h3>Empowring <span class="multiple-text"> </span></h3>
+            <p>
+                "Transforming students into Tech Leaders of Tomorrow"
+            </p>
+            <p>
+                We believe in hands-on learning,innovation,and excellence.
+            </p>
+            
+            <a href="/login/" class="btn">Start's here</a>
+        </div>
+        <div class="home-img">
+            
+            <img src="{% static 'college.jpg' %}" alt="Auto Image">
+               
+        </div>
+
+        </div>
+
+    </section>
+
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+  
+    <script src="{% static 'script1.js' %}"></script>
+
 </body>
+
 </html>
